@@ -14,7 +14,7 @@ pub enum PidlockError {
 type PidlockResult = Result<(), PidlockError>;
 
 #[derive(Debug, PartialEq)]
-enum PidlockState {
+pub enum PidlockState {
     New,
     Acquired,
     Released,
@@ -64,6 +64,10 @@ impl Pidlock {
                 Err(_) => fs::remove_file(&self.path).unwrap(),
             }
         }
+    }
+
+    pub fn state(&self) -> &PidlockState {
+        &self.state
     }
 
     pub fn acquire(&mut self) -> PidlockResult {
